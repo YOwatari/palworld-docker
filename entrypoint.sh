@@ -19,5 +19,5 @@ fi
 CMD="${CMD} -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS"
 
 echo "${CMD}"
-su steam -c "${CMD}"
+exec su steam -c "${CMD}"
 
