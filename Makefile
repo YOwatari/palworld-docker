@@ -1,5 +1,9 @@
 run:
-	docker compose --compatibility up --build
+	docker compose --compatibility up --build -d
+	$(MAKE) logs
+
+logs:
+	docker compose logs -f
 
 build stop:
 	docker compose $@
