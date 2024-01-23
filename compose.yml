@@ -1,16 +1,17 @@
 services:
   palworld-dedicated:
     build: "."
-    tty: true
     restart: unless-stopped
     ports:
       - "8211:8211/udp"
     volumes:
-      - data:/palworld
-      - ./PalWorldSettings.ini:/home/docker/PalServer/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini:ro
+      - data:/home/steam/palworld
+      - ./PalWorldSettings.ini:/home/steam/palworld/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini:ro
     environment:
       - SERVER_PLAYERS=32
       - SERVER_PORT=8211
+      - USER_ID
+      - GROUP_ID
     deploy:
       resources:
         limits:

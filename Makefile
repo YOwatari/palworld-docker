@@ -1,3 +1,6 @@
+export USER_ID := $(shell id -u)
+export GROUP_ID := $(shell id -g)
+
 run:
 	docker compose --compatibility up --build -d
 	$(MAKE) logs
@@ -5,9 +8,12 @@ run:
 logs:
 	docker compose logs -f
 
-build stop:
-	docker compose $@
+exec:
+	docker compose exec palworld-dedicated bash
+
+stop:
+	docker compose down
 
 clean:
-	docker compose rm -v -f
+	docker compose down --rmi all --volumes --remove-orphans
 

@@ -2,6 +2,7 @@ FROM cm2network/steamcmd:root AS build
 
 ENV STEAMAPPID 2394010
 ENV STEAMAPP palworld
+ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}"
 
 RUN \
     --mount=type=cache,target=/var/cache/apt \
@@ -13,13 +14,16 @@ RUN \
 
 COPY entrypoint.sh "${HOMEDIR}/entrypoint.sh"
 
-RUN chmod +x "${HOMEDIR}/entrypoint.sh" \
-    && chown -R "${USER}:${USER}" "${HOMEDIR}/entrypoint.sh"
+RUN mkdir -p "${STEAMAPPDIR}" \
+    && chmod +x "${HOMEDIR}/entrypoint.sh" \
+    && chown -R "${USER}:${USER}" "${HOMEDIR}/entrypoint.sh" "${STEAMAPPDIR}"
 
 FROM build as base
 
 ENV SERVER_PORT=8211 \
     SERVER_PLAYERS=32
+
+#USER ${USER}
 
 WORKDIR ${HOMEDIR}
 
